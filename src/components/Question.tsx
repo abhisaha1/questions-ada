@@ -2,6 +2,7 @@ import { Container, QuestionCounter } from "./Question.css";
 import React, { ChangeEvent, useEffect, useRef } from "react";
 
 import ActionType from "../store/actionType";
+import Answer from "./Answer";
 import Option from "./Option";
 import { postResultsAPI } from "../api";
 import { useGlobalStore } from "../store";
@@ -56,25 +57,6 @@ const Question: React.FC<IProps> = (props) => {
     });
   };
 
-  const renderAnswerOptions = (text: string, index: number) => {
-    let tabIndex = -1;
-    if (answers[cursor] === text) {
-      tabIndex = 0;
-    }
-    if (!answers[cursor] && index === 0) {
-      tabIndex = 0;
-    }
-    return (
-      <Option
-        isChecked={answers[cursor] === text}
-        answer={text}
-        key={text + "-" + store.cursor}
-        onAnswerSelected={onAnswerSelected}
-        tabIndex={tabIndex}
-      />
-    );
-  };
-
   return (
     <Container
       ref={containerRef}
@@ -87,7 +69,11 @@ const Question: React.FC<IProps> = (props) => {
         </QuestionCounter>
         <h2>{questions[cursor].question}</h2>
 
-        <div>{questions[cursor].options.map(renderAnswerOptions)}</div>
+        <Answer
+          options={questions[cursor].options}
+          selectedAnswer={answers[cursor]}
+          onAnswerSelected={onAnswerSelected}
+        />
       </div>
       {answers[cursor] && <button onClick={nextQuestion}>Next</button>}
     </Container>

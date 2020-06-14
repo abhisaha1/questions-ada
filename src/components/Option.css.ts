@@ -20,9 +20,9 @@ export const RadioOption = styled.div`
     position: relative;
     padding-left: 28px;
     cursor: pointer;
-    line-height: 20px;
     display: inline-block;
     color: #666;
+    padding-bottom: 4px;
   }
   [type="radio"]:checked + label:before,
   [type="radio"]:not(:checked) + label:before {
@@ -56,7 +56,8 @@ export const RadioOption = styled.div`
     opacity: 1;
     transform: scale(1);
   }
-  /* [type="radio"]:focus + label:before {
+
+  [type="radio"]:focus + label {
     outline: auto;
-  } */
+  }
 `;
