@@ -40,6 +40,7 @@ const Question: React.FC<IProps> = (props) => {
   };
 
   const postResults = async () => {
+    //@ts-ignore
     const response = await postResultsAPI(Object.values(answers));
     dispatch({
       type: ActionType.SET_RESULT,

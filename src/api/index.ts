@@ -73,7 +73,7 @@ export const postResultsAPI = (
   return Promise.resolve(response);
 };
 
-export const sendresult = (data: IResultOptions) => {
+export const sendresult = (data: IResultOptions[]) => {
   console.log("Send result to backend");
 
   return Promise.resolve(true);

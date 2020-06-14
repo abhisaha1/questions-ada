@@ -1,11 +1,11 @@
 import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom";
-// import { StoreProvider } from "./store";
+import { StoreProvider } from "./store";
 
 ReactDOM.render(
-  // <StoreProvider>
-  <App />,
-  // </StoreProvider>,
+  <StoreProvider>
+    <App />,
+  </StoreProvider>,
   document.getElementById("root"),
 );
