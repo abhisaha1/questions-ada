@@ -6,10 +6,10 @@ export const reducer: React.Reducer<IGlobalState, IAction> = (
   state,
   action,
 ): IGlobalState => {
-  console.log("action :>> ", action);
   switch (action.type) {
     case ActionType.SET_QUESTIONS: {
-      return { ...state, questions: action.payload, cursor: 0 };
+      const { cursor, questions } = action.payload;
+      return { ...state, questions, cursor };
     }
 
     case ActionType.SELECT_ANSWER: {

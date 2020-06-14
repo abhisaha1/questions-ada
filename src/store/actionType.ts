@@ -12,7 +12,10 @@ export default ActionType;
 
 interface IActionSetQuestions {
   type: ActionType.SET_QUESTIONS;
-  payload: IQuestion[];
+  payload: {
+    questions: IQuestion[];
+    cursor: number;
+  };
 }
 interface IActionSetQuestionCursor {
   type: ActionType.SET_QUESTION_CURSOR;

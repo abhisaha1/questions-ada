@@ -1,39 +1,16 @@
 import { Container, Header } from "./App.css";
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent } from "react";
 
 import ActionType from "./store/actionType";
 import Question from "./components/Question";
 import Result from "./components/Result";
-import { fetchQuestions } from "./api";
 import { useGlobalStore } from "./store";
-import { useOfflineHook } from "./hooks/useOfflineHook";
+import { useInitStore } from "./hooks/useInitStore";
 
 const App: React.FC = () => {
+  useInitStore();
   const [store, dispatch] = useGlobalStore();
-  const [offlineData] = useOfflineHook();
   const { result } = store;
-
-  useEffect(() => {
-    fetchQuestions().then((questions) => {
-      dispatch({
-        type: ActionType.SET_QUESTIONS,
-        payload: questions,
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    if (offlineData) {
-      dispatch({
-        type: ActionType.SET_ANSWERS,
-        payload: offlineData.answers,
-      });
-      dispatch({
-        type: ActionType.SET_QUESTION_CURSOR,
-        payload: offlineData.cursor,
-      });
-    }
-  }, [store.questions.length]);
 
   const onResultChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newResult = result.map((item) => {
@@ -49,7 +26,7 @@ const App: React.FC = () => {
     });
   };
 
-  const renderQuiz = () => {
+  const renderQuestion = () => {
     if (store.cursor < 0) return null;
     return <Question />;
   };
@@ -62,7 +39,7 @@ const App: React.FC = () => {
       <Header>
         <h2>Questionaire</h2>
       </Header>
-      {result.length > 0 ? renderResult() : renderQuiz()}
+      {result.length > 0 ? renderResult() : renderQuestion()}
     </Container>
   );
 };
