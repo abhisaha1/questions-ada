@@ -10,22 +10,18 @@ interface AnswerOption {
 
 const Option: React.FC<AnswerOption> = (props) => {
   return (
-    <Container>
-      <RadioOption>
-        <input
-          tabIndex={props.tabIndex}
-          type="radio"
-          name="radioGroup"
-          checked={props.isChecked}
-          id={props.answer}
-          value={props.answer}
-          onChange={props.onAnswerSelected}
-        />
-        <label className="radioCustomLabel" htmlFor={props.answer}>
-          {props.answer}
-        </label>
-      </RadioOption>
-    </Container>
+    <RadioOption>
+      <input
+        tabIndex={props.tabIndex}
+        type="radio"
+        name="radioGroup"
+        checked={props.isChecked}
+        id={props.answer}
+        value={props.answer}
+        onChange={props.onAnswerSelected}
+      />
+      <label htmlFor={props.answer}>{props.answer}</label>
+    </RadioOption>
   );
 };
 

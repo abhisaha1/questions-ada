@@ -39,7 +39,9 @@ const App: React.FC = () => {
       <Header>
         <h2>Questionaire</h2>
       </Header>
-      {result.length > 0 ? renderResult() : renderQuestion()}
+      <div aria-live="polite">
+        {result.length > 0 ? renderResult() : renderQuestion()}
+      </div>
     </Container>
   );
 };

@@ -8,10 +8,12 @@ export const Container = styled.li`
 `;
 
 export const RadioOption = styled.div`
+  padding-bottom: 10px;
   [type="radio"]:checked,
   [type="radio"]:not(:checked) {
     position: absolute;
-    left: -9999px;
+    z-index: -1;
+    opacity: 0;
   }
   [type="radio"]:checked + label,
   [type="radio"]:not(:checked) + label {
@@ -54,7 +56,7 @@ export const RadioOption = styled.div`
     opacity: 1;
     transform: scale(1);
   }
-  [type="radio"]:focus + label:before {
+  /* [type="radio"]:focus + label:before {
     outline: auto;
-  }
+  } */
 `;

@@ -1,5 +1,5 @@
 import { Container, RadioOption } from "./Option.css";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { IResultOptions } from "../types";
 import { sendresult } from "../api";
@@ -15,30 +15,38 @@ const Result: React.FC<IProps> = ({ result, onResultChange }) => {
   const [, , clearOffline] = useOfflineHook();
   const [done, setDone] = useState(false);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const selected = containerRef.current.querySelector(
+        '[tabindex="0"]',
+      ) as HTMLLabelElement;
+      if (selected) selected.focus();
+    }
+  }, [done]);
+
   // delete offline data
   useEffect(() => {
     clearOffline();
   }, []);
   const resultList = result.map((item) => {
     return (
-      <Container key={item.severity}>
-        <RadioOption>
-          <input
-            tabIndex={item.selected ? 0 : -1}
-            type="radio"
-            name="radioGroup"
-            checked={item.selected}
-            id={item.severity}
-            value={item.severity}
-            onChange={onResultChange}
-          />
-          <label className="radioCustomLabel" htmlFor={item.severity}>
-            {item.name} - {item.severity}{" "}
-            {item.recommended ? "(suggested)" : ""}
-          </label>
-          <p>{item.description}</p>
-        </RadioOption>
-      </Container>
+      <RadioOption key={item.severity}>
+        <input
+          tabIndex={item.selected ? 0 : -1}
+          type="radio"
+          name="radioGroup"
+          checked={item.selected}
+          id={item.severity}
+          value={item.severity}
+          onChange={onResultChange}
+        />
+        <label htmlFor={item.severity}>
+          {item.name} - {item.severity} {item.recommended ? "(suggested)" : ""}
+        </label>
+        <p>{item.description}</p>
+      </RadioOption>
     );
   });
 
@@ -50,14 +58,14 @@ const Result: React.FC<IProps> = ({ result, onResultChange }) => {
   };
 
   if (done) {
-    return <span>Your selection has been saved successfully.</span>;
+    return <div>Your selection has been saved successfully.</div>;
   }
 
   return (
-    <>
+    <div ref={containerRef} tabIndex={0}>
       {resultList}
       <button onClick={submitResult}>Submit Data</button>
-    </>
+    </div>
   );
 };
 

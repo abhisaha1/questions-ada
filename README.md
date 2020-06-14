@@ -1,3 +1,10 @@
+## Run
+
+```sh
+yarn install
+yarn dev
+```
+
 ## Architecture
 
 The project uses `parcel` to bundle the application. The application uses hooks to encapsulate few features.
@@ -70,3 +77,8 @@ Store (context API)
 |___Result.tsx // renders result page
 
 ```
+
+## ADA
+
+The solution is ADA complaint. Everytime a new question appears, the focus is set to the first element.
+The main question block has the attribute `aria-live="polite"` which helps in reading its content during updates.

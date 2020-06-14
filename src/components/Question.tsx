@@ -1,5 +1,5 @@
 import { Container, QuestionCounter } from "./Question.css";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 
 import ActionType from "../store/actionType";
 import Option from "./Option";
@@ -13,6 +13,14 @@ const Question: React.FC<IProps> = (props) => {
   const [store, dispatch] = useGlobalStore();
   const [, setOfflineData] = useOfflineHook();
   const { cursor, questions, answers } = store;
+  const containerRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      console.log("Setting focus");
+      containerRef.current.focus();
+    }
+  }, [store.cursor]);
 
   const onAnswerSelected = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch({
@@ -60,7 +68,7 @@ const Question: React.FC<IProps> = (props) => {
       <Option
         isChecked={answers[cursor] === text}
         answer={text}
-        key={text}
+        key={text + "-" + store.cursor}
         onAnswerSelected={onAnswerSelected}
         tabIndex={tabIndex}
       />
@@ -68,13 +76,19 @@ const Question: React.FC<IProps> = (props) => {
   };
 
   return (
-    <Container>
-      <QuestionCounter>
-        Question <span>{cursor + 1}</span> of <span>{questions.length}</span>
-      </QuestionCounter>
-      <h2>{questions[cursor].question}</h2>
-      <ul>{questions[cursor].options.map(renderAnswerOptions)}</ul>
+    <Container
+      ref={containerRef}
+      tabIndex={0}
+      aria-labelledby={"question-" + store.cursor}
+    >
+      <div id={"question-" + store.cursor}>
+        <QuestionCounter>
+          Question <span>{cursor + 1}</span> of <span>{questions.length}</span>
+        </QuestionCounter>
+        <h2>{questions[cursor].question}</h2>
 
+        <div>{questions[cursor].options.map(renderAnswerOptions)}</div>
+      </div>
       {answers[cursor] && <button onClick={nextQuestion}>Next</button>}
     </Container>
   );
